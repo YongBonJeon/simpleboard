@@ -10,7 +10,16 @@ import lombok.Data;
 public class Comment {
 
     @Id @GeneratedValue
-    private Long commentId;
-    private Long postId;
+    private Long Id;
     private String content;
+
+    private Long postId;
+
+    public Comment() {
+    }
+
+    public Comment(String content, Long postId) {
+        this.content = content;
+        this.postId = postId;
+    }
 }

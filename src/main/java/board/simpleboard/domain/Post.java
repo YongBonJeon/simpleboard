@@ -9,8 +9,14 @@ import lombok.Data;
 @Entity
 public class Post {
     @Id @GeneratedValue
-    private Long postId;
+    private Long Id;
     private String title;
     private String content;
-    private Long userId;
+
+    public Post() {
+    }
+    public Post(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }
