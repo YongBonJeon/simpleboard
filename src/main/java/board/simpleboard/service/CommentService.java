@@ -34,6 +34,11 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
+    public void update(Long commentId, String updateContent) {
+        Comment comment = commentRepository.findById(commentId).get();
+        comment.setContent(updateContent);
+    }
+
     //삭제
     public void delete(Comment comment) {
         commentRepository.delete(comment);

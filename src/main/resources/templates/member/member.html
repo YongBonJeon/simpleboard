@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="kr">
+<head th:replace="~{commonLayout/head}">
+</head>
+<body>
+<div class="d-flex" id="wrapper">
+    <div th:replace="~{commonLayout/sidebar}"></div>
+
+    <div id="page-content-wrapper">
+        <!-- Top navigation-->
+        <nav th:replace="~{commonLayout/loginTop}"></nav>
+        <!-- Page content-->
+        <div>
+            <h2>내 정보</h2>
+            <div>이름 :</div>
+            <div th:text="${member.name}"></div>
+            <div>전화번호 :</div>
+            <div th:text="${member.phoneNumber}">
+            </div>
+            <div>이메일 :</div>
+            <div th:text="${member.email}">
+            </div>
+        </div>
+
+        <div>
+            <h3>내가 쓴 게시글</h3>
+
+            <div th:each="post : ${posts}">
+                <a>게시물 번호 : </a>
+                <a th:href="@{/posts/{postId}(postId=${post.getId()})}" th:text="${post.getId()}">
+                </a>
+                <a>게시물 제목 : </a>
+                <a th:href="@{/posts/{postId}(postId=${post.getId()})}" th:text="${post.getTitle()}">
+                </a>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</body>
+</html>

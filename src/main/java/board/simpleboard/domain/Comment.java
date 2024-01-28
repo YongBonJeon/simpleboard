@@ -1,25 +1,26 @@
 package board.simpleboard.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
-@Data
+
 @Entity
-public class Comment {
+@Data
+public class Comment extends DateEntity {
 
     @Id @GeneratedValue
     private Long Id;
     private String content;
 
-    private Long postId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
 
     public Comment() {
     }
 
-    public Comment(String content, Long postId) {
+    public Comment(String content, Post post) {
         this.content = content;
-        this.postId = postId;
+        this.post = post;
     }
 }

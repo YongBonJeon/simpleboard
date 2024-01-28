@@ -14,22 +14,40 @@
                 <nav th:replace="~{commonLayout/loginTop}">
                 </nav>
                 <!-- Page content-->
-                <div class="container-fluid">
+                <div>
                     <h1 class="mt-4">전체 게시글</h1>
                     <table>
-                        <thead>
                         <tr>
                             <th>번호</th>
                             <th>제목</th>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="post : ${posts}">
+                        <tr th:each="post : ${postPages}">
                             <td><a th:href="@{/posts/{postId}(postId=${post.id})}" th:text="${post.getId()}">username</a></td>
                             <td><a th:href="@{/posts/{postId}(postId=${post.id})}" th:text="${post.getTitle()}">0</a></td>
+                            <td><a th:href="@{/posts/{postId}(postId=${post.id})}" th:text="${post.getName()}">0</a></td>
                         </tr>
-                        </tbody>
                     </table>
+
+                    <!-- 첫 페이지 -->
+                    <a th:href="@{/posts(page=1)}">첫 페이지</a>
+
+                    <!-- 이전 페이지 -->
+                    <span th:if="${postPages.getNumber() > 1}">
+                        <a th:href="@{/posts(page=${(postPages.getNumber())})}">이전 페이지</a>
+                    </span>
+
+                    <th:block th:each="i : ${#numbers.sequence(0, postPages.getTotalPages() - 1)}">
+                        <a th:href="@{/posts(page=${(i + 1)})}" th:text="${i+1}">0</a>
+                    </th:block>
+
+                    <!-- 다음 페이지 -->
+                    <span th:if="${postPages.getNumber() < postPages.getTotalPages() - 1}">
+                        <a th:href="@{/posts(page=${(postPages.getNumber() + 2)})}">다음 페이지</a>
+                    </span>
+
+                    <!-- 마지막 페이지 -->
+                    <a th:href="@{/posts(page=${postPages.getTotalPages()})}">마지막 페이지</a>
+
                 </div>
             </div>
         </div>

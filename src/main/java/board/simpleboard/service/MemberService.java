@@ -19,6 +19,9 @@ public class MemberService {
     public Optional<Member> findById(Long id) {
         return userRepository.findById(id);
     }
+    public Optional<Member> findByLoginId(String loginId) {
+        return userRepository.findByLoginId(loginId);
+    }
     //등록
     public Member save(Member member) {
         return userRepository.save(member);
