@@ -41,8 +41,13 @@ public class PostService {
     }
 
     //수정
-    public void update(Post post) {
-        postRepository.save(post);
+    public void update(Long postId, Post post) {
+        postRepository.findById(postId)
+                .map(p -> {
+                    p.setTitle(post.getTitle());
+                    p.setContent(post.getContent());
+                    return postRepository.save(p);
+                });
     }
 
     //삭제
@@ -59,6 +64,19 @@ public class PostService {
         int pageLimit = 5; // 한 페이지에 5개씩
 
         Page<Post> postPages = postRepository.findAll(PageRequest.of(page, pageLimit, Sort.by("id").ascending()));
+        Page<PostPageDto> postPagesDtos = postPages.map(postPage -> new PostPageDto(postPage));
+
+        return postPagesDtos;
+    }
+
+    public Page<PostPageDto> paging(String searchTitle, Pageable pageable) {
+        int page = pageable.getPageNumber() - 1;
+        int pageLimit = 5; // 한 페이지에 5개씩
+
+        if(searchTitle == null || searchTitle.equals(""))
+            return paging(pageable);
+
+        Page<Post> postPages = postRepository.findAllByTitleLike("%"+searchTitle+"%", PageRequest.of(page, pageLimit, Sort.by("id").ascending()));
         Page<PostPageDto> postPagesDtos = postPages.map(postPage -> new PostPageDto(postPage));
 
         return postPagesDtos;

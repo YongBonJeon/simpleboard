@@ -13,7 +13,6 @@ public class LoginInterceptor implements HandlerInterceptor {
         String requestURI = request.getRequestURI();
 
         HttpSession session = request.getSession();
-        log.info("인증 체크 인터셉터 실행 {}", requestURI);
 
         if(session == null || session.getAttribute("loginMember") == null) {
 

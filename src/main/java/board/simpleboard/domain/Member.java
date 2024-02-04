@@ -1,9 +1,6 @@
 package board.simpleboard.domain;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -23,6 +20,9 @@ public class Member extends DateEntity{
     private String phoneNumber;
     @Embedded
     private Address address;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public Member() {
     }

@@ -16,11 +16,16 @@ public class Comment extends DateEntity {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     public Comment() {
     }
 
-    public Comment(String content, Post post) {
+    public Comment(String content, Post post, Member member) {
         this.content = content;
         this.post = post;
+        this.member = member;
     }
 }

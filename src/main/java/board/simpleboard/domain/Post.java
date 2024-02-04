@@ -15,6 +15,10 @@ public class Post extends DateEntity{
     private String title;
     private String content;
 
+    @CreatedDate
+    private LocalDate createdDate;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;

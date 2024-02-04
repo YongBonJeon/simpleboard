@@ -4,6 +4,7 @@ import board.simpleboard.domain.Comment;
 import board.simpleboard.domain.Member;
 import board.simpleboard.domain.Post;
 import board.simpleboard.domain.form.PostPageDto;
+import board.simpleboard.domain.form.PostSearchCond;
 import board.simpleboard.service.CommentService;
 import board.simpleboard.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -40,9 +41,10 @@ public class PostController {
     @GetMapping
     public String posts(@SessionAttribute(name = "loginMember", required = false) Member loginMember,
                         @PageableDefault(page=1) Pageable pageable,
+                        @ModelAttribute PostSearchCond postSearchCond,
                         Model model) {
 
-        Page<PostPageDto> postPages = postService.paging(pageable);
+        Page<PostPageDto> postPages = postService.paging(postSearchCond.getTitle(), pageable);
         model.addAttribute("postPages", postPages);
         model.addAttribute("loginMember", loginMember);
 
@@ -58,6 +60,11 @@ public class PostController {
         List<Comment> comments = commentService.findAllByPostId(postId);
         if(!comments.isEmpty())
             model.addAttribute("comments", comments);
+
+        // 게시글 수정, 삭제 권한 확인
+        if(loginMember != null && loginMember.getId().equals(post.getMember().getId())) {
+            model.addAttribute("isOwner", true);
+        }
 
         for (Comment comment : comments) {
             System.out.println(comment.getContent());
@@ -99,9 +106,7 @@ public class PostController {
 
     @PostMapping("/{postId}/edit")
     public String editForm(@PathVariable Long postId, @ModelAttribute Post post) {
-        Post updatePost = postService.findById(postId).get();
-        updatePost.setTitle(post.getTitle());
-        updatePost.setContent(post.getContent());
+        postService.update(postId, post);
         return "redirect:/posts/{postId}";
     }
 }

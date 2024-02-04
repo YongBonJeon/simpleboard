@@ -19,8 +19,10 @@ public class CommentController {
     private final PostService postService;
 
     @PostMapping("{postId}/add")
-    public String addComment(@PathVariable Long postId, @RequestBody String content) {
-        commentService.save(new Comment(content.split("=")[1], postService.findById(postId).get()));
+    public String addComment(@SessionAttribute(name = "loginMember", required = false) Member loginMember,
+                             @PathVariable Long postId,
+                             @RequestBody String content) {
+        commentService.save(new Comment(content.split("=")[1], postService.findById(postId).get(), loginMember));
         return "redirect:/posts/{postId}";
     }
 
