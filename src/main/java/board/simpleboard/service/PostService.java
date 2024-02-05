@@ -1,5 +1,6 @@
 package board.simpleboard.service;
 
+import board.simpleboard.domain.Comment;
 import board.simpleboard.domain.Member;
 import board.simpleboard.domain.Post;
 import board.simpleboard.domain.form.PostPageDto;
@@ -32,6 +33,7 @@ public class PostService {
         log.info("member = {}", member);
         return postRepository.findAllByMemberId(member.getId());
     }
+
 
     //등록
     public Post save(Post post, Member loginMember) {
@@ -81,4 +83,6 @@ public class PostService {
 
         return postPagesDtos;
     }
+
+
 }

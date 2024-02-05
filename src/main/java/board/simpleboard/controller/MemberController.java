@@ -1,7 +1,9 @@
 package board.simpleboard.controller;
 
+import board.simpleboard.domain.Comment;
 import board.simpleboard.domain.Member;
 import board.simpleboard.domain.Post;
+import board.simpleboard.service.CommentService;
 import board.simpleboard.service.MemberService;
 import board.simpleboard.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final PostService postService;
+    private final CommentService commentService;
 
 
     @GetMapping("/members/add")
@@ -41,7 +44,9 @@ public class MemberController {
         model.addAttribute("member", member);
         model.addAttribute("loginMember", loginMember);
         List<Post> posts = postService.findAllByMemberId(member);
+        List<Comment> comments = commentService.findAllByMemberId(member);
         model.addAttribute("posts", posts);
+        model.addAttribute("comments", comments);
 
         return "member/member";
     }

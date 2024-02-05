@@ -23,7 +23,7 @@
             <div th:text="${post.content}"></div>
 
             <!--로그인 ID와 게시글 작성 ID 확인하여 게시글 수정, 삭제 버튼 활성화-->
-            <div th:if="${isOwner} == true">
+            <div th:if="${loginMember.getId() == post.getMember().getId() || loginMember.getRole() == T(board.simpleboard.domain.Role).ADMIN}">
 
             <button class="btn btn-primary btn-lg"
                     th:onclick="|location.href='@{/posts/{postId}/edit(postId=${post.id})}'|"
@@ -55,7 +55,7 @@
                 <a>작성자 : </a><p th:text="${comment.getMember().getName()}"></p>
                 <a>댓글 내용 : </a><p th:text="${comment.content}"></p>
 
-                    <div th:if="${loginMember.getId() == comment.getMember().getId()}">
+                    <div th:if="${loginMember.getId() == comment.getMember().getId() || loginMember.getRole() == T(board.simpleboard.domain.Role).ADMIN}">
                     <button class="btn btn-primary btn-lg"
                             th:onclick="|location.href='@{/comments/{commentId}/edit(commentId=${comment.id})}'|"
                             type="button">댓글 수정

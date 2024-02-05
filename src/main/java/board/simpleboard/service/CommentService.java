@@ -1,6 +1,7 @@
 package board.simpleboard.service;
 
 import board.simpleboard.domain.Comment;
+import board.simpleboard.domain.Member;
 import board.simpleboard.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,5 +43,9 @@ public class CommentService {
     //삭제
     public void delete(Comment comment) {
         commentRepository.delete(comment);
+    }
+
+    public List<Comment> findAllByMemberId(Member member) {
+        return commentRepository.findAllByMemberId(member.getId());
     }
 }

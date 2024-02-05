@@ -1,7 +1,9 @@
 package board.simpleboard;
 
+import board.simpleboard.domain.Address;
 import board.simpleboard.domain.Member;
 import board.simpleboard.domain.Post;
+import board.simpleboard.domain.Role;
 import board.simpleboard.service.CommentService;
 import board.simpleboard.service.MemberService;
 import board.simpleboard.service.PostService;
@@ -30,11 +32,16 @@ public class SimpleboardApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup() {
-		Member memberA = new Member("a", "a", "a");
-		Member memberB = new Member("b", "b", "b");
-		Member memberC = new Member("c", "c", "c");
-		Member memberD = new Member("d", "d", "d");
-		Member memberE = new Member("e", "e", "e");
+		Member memberAdmin = new Member("관리자admin", "admin", "admin", "bon6143@gmail.com", "010-9093-6143", new Address("서울", "송파", "05652"), Role.ADMIN);
+		Member memberA = new Member("사용자a", "a", "a", "a@naver.com", "010-1111-1111", new Address("서울", "송파", "05652"), Role.USER);
+		Member memberB = new Member("사용자b", "b", "b", "b@naver.com", "010-2222-2222", new Address("서울", "송파", "05652"), Role.USER);
+		Member memberC = new Member("사용자c", "c", "c", "c@naver.com", "010-3333-3333", new Address("서울", "송파", "05652"), Role.USER);
+		Member memberD = new Member("사용자d", "d", "d", "d@naver.com", "010-4444-4444", new Address("서울", "송파", "05652"), Role.USER);
+		Member memberE = new Member("사용자e", "e", "e", "e@naver.com", "010-5555-5555", new Address("서울", "송파", "05652"), Role.USER);
+		if(memberAdmin.getRole().getKey() == "ADMIN") {
+			memberAdmin.setRole(Role.ADMIN);
+		}
+		memberService.save(memberAdmin);
 		memberService.save(memberA);
 		memberService.save(memberB);
 		memberService.save(memberC);

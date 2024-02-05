@@ -2,6 +2,8 @@ package board.simpleboard.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -11,6 +13,7 @@ import java.time.LocalDate;
 @Entity
 public class Post extends DateEntity{
     @Id @GeneratedValue
+    @Column(name = "post_id")
     private Long Id;
     private String title;
     private String content;
@@ -21,6 +24,7 @@ public class Post extends DateEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;
 
     public Post() {

@@ -11,6 +11,7 @@ import java.time.LocalDate;
 public class Member extends DateEntity{
 
     @Id @GeneratedValue
+    @Column(name = "member_id")
     private Long Id;
 
     private String name;
@@ -26,9 +27,14 @@ public class Member extends DateEntity{
 
     public Member() {
     }
-    public Member(String loginId, String name, String password) {
-        this.loginId = loginId;
+
+    public Member(String name, String loginId, String password, String email, String phoneNumber, Address address, Role role) {
         this.name = name;
+        this.loginId = loginId;
         this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.role = role;
     }
 }

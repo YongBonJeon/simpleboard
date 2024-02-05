@@ -61,11 +61,6 @@ public class PostController {
         if(!comments.isEmpty())
             model.addAttribute("comments", comments);
 
-        // 게시글 수정, 삭제 권한 확인
-        if(loginMember != null && loginMember.getId().equals(post.getMember().getId())) {
-            model.addAttribute("isOwner", true);
-        }
-
         for (Comment comment : comments) {
             System.out.println(comment.getContent());
         }
