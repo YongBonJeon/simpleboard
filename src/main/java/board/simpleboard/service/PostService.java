@@ -4,6 +4,7 @@ import board.simpleboard.domain.Comment;
 import board.simpleboard.domain.Member;
 import board.simpleboard.domain.Post;
 import board.simpleboard.domain.form.PostPageDto;
+import board.simpleboard.domain.form.PostSearchCond;
 import board.simpleboard.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,25 +62,29 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public Page<PostPageDto> paging(Pageable pageable) {
+    public Page<PostPageDto>paging(PostSearchCond postSearchCond, Pageable pageable) {
         int page = pageable.getPageNumber() - 1;
         int pageLimit = 5; // 한 페이지에 5개씩
 
-        Page<Post> postPages = postRepository.findAll(PageRequest.of(page, pageLimit, Sort.by("id").ascending()));
-        Page<PostPageDto> postPagesDtos = postPages.map(postPage -> new PostPageDto(postPage));
-
-        return postPagesDtos;
-    }
-
-    public Page<PostPageDto> paging(String searchTitle, Pageable pageable) {
-        int page = pageable.getPageNumber() - 1;
-        int pageLimit = 5; // 한 페이지에 5개씩
-
-        if(searchTitle == null || searchTitle.equals(""))
-            return paging(pageable);
-
-        Page<Post> postPages = postRepository.findAllByTitleLike("%"+searchTitle+"%", PageRequest.of(page, pageLimit, Sort.by("id").ascending()));
-        Page<PostPageDto> postPagesDtos = postPages.map(postPage -> new PostPageDto(postPage));
+        Page<Post> postPages;
+        Page<PostPageDto> postPagesDtos;
+        // 검색조건이 없을 때
+        if(postSearchCond.getTitle() == null && postSearchCond.getBoardName() == null) {
+            postPages = postRepository.findAll(PageRequest.of(page, pageLimit, Sort.by("id").ascending()));
+        }
+        // 검색조건이 게시판이름일 때
+        else if(postSearchCond.getTitle() == null) {
+            postPages = postRepository.findAllByBoardName(postSearchCond.getBoardName(), PageRequest.of(page, pageLimit, Sort.by("id").ascending()));
+        }
+        // 검색조건이 제목일 때
+        else if(postSearchCond.getBoardName() == null) {
+            postPages = postRepository.findAllByTitleLike("%" + postSearchCond.getTitle() + "%", PageRequest.of(page, pageLimit, Sort.by("id").ascending()));
+        }
+        // 검색조건이 제목과 게시판이름일 때
+        else {
+            postPages = postRepository.findAllByTitleLikeAndBoardName("%" + postSearchCond.getTitle() + "%",  postSearchCond.getBoardName(), PageRequest.of(page, pageLimit, Sort.by("id").ascending()));
+        }
+        postPagesDtos = postPages.map(PostPageDto::new);
 
         return postPagesDtos;
     }

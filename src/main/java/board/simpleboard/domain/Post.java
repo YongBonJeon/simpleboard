@@ -18,9 +18,10 @@ public class Post extends DateEntity{
     private String title;
     private String content;
 
+    private String boardName;
+
     @CreatedDate
     private LocalDate createdDate;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -29,14 +30,16 @@ public class Post extends DateEntity{
 
     public Post() {
     }
-    public Post(String title, String content) {
+    public Post(String title, String content, String boardName) {
         this.title = title;
         this.content = content;
+        this.boardName = boardName;
     }
 
     public Post(String title, String content, Member member) {
         this.title = title;
         this.content = content;
         this.member = member;
+
     }
 }

@@ -17,6 +17,15 @@
             </div>
 
             <form th:action method="post">
+                <!--SELECT-->
+                <div>
+                    <label th:for="boardName">게시판 선택</label>
+                    <select class="form-select" th:field="${post.boardName}">
+                        <option value="">==게시판 선택==</option>
+                        <option th:each="boardName : ${boardNames}"
+                                th:value="${boardName}" th:text="${boardName}"></option>
+                    </select>
+                </div>
                 <div>
                     <label for="title">제목</label>
                     <input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력하세요">

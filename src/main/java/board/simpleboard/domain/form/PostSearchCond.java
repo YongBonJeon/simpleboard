@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class PostSearchCond {
     private String title;
+    private String boardName;
 
     public PostSearchCond() {
     }

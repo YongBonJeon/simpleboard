@@ -2,6 +2,7 @@ package board.simpleboard.repository;
 
 import board.simpleboard.domain.Post;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -15,5 +16,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findAllByMemberId(Long id);
 
+    Page<Post> findAllByBoardName(String boardName, Pageable pageable);
 
+    Page<Post> findAllByTitleLikeAndBoardName(String s, String s1, Pageable pageable);
 }

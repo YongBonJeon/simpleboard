@@ -48,8 +48,14 @@ public class SimpleboardApplication {
 		memberService.save(memberD);
 		memberService.save(memberE);
 
-		for(int i = 1 ; i <= 30 ; i++) {
-			postService.save(new Post("title" + i, "content" + i), memberA);
+		for(int i = 1 ; i <= 14 ; i++) {
+			postService.save(new Post("title" + i, "content" + i, "자유게시판"), memberA);
+		}
+		for(int i = 15 ; i <= 28 ; i++) {
+			postService.save(new Post("title" + i, "content" + i, "질문게시판"), memberB);
+		}
+		for(int i = 29 ; i <= 30 ; i++) {
+			postService.save(new Post("title" + i, "content" + i, "공지사항"), memberAdmin);
 		}
 
 
