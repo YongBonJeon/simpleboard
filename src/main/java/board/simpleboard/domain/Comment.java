@@ -1,6 +1,7 @@
 package board.simpleboard.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -13,6 +14,8 @@ public class Comment extends DateEntity {
     @Id @GeneratedValue
     @Column(name = "comment_id")
     private Long Id;
+
+    @NotBlank(message = "내용을 입력해주세요.")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)

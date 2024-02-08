@@ -13,11 +13,24 @@
             <div class="container">
                 <div class="py-5 text-center">
                     <h2>로그인</h2></div>
-                <form th:action th:object="${loginForm}" method="post">
-                    <label for="loginId">로그인 ID</label>
-                    <input type="text" id="loginId" th:field="*{loginId}" class="form-control">
-                    <label for="password">비밀번호</label>
-                    <input type="password" id="password" th:field="*{password}" class="form-control">
+                    <form th:action th:object="${loginForm}" method="post">
+                        <!--로그인 실패 경고-->
+                        <div th:if="${#fields.hasGlobalErrors()}">
+                            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">로그인 실패</p>
+                        </div>
+
+                        <label for="loginId">로그인 ID</label>
+                        <input type="text" id="loginId" th:field="*{loginId}"
+                               class="form-control" placeholder="ID를 입력하세요"
+                                th:errorclass="field-error">
+                        <div class="field-error" th:errors="*{loginId}">로그인 ID 오류</div>
+
+                        <label for="password">비밀번호</label>
+
+                        <input type="password" id="password" th:field="*{password}"
+                               class="form-control" placeholder="비밀번호를 입력하세요"
+                               th:errorclass="field-error">
+                        <div class="field-error" th:errors="*{password}">비밀번호 오류</div>
 
 
                     <hr class="my-4">

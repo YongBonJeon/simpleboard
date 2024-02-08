@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="kr">
+<html xmlns:th="http://www.thymeleaf.org" lang="kr">
 <head th:replace="~{commonLayout/head}">
 </head>
 <body>
@@ -16,23 +15,28 @@
                 <h2>게시글 등록</h2>
             </div>
 
-            <form th:action method="post">
+            <form th:action method="post" th:object="${post}">
                 <!--SELECT-->
                 <div>
                     <label th:for="boardName">게시판 선택</label>
-                    <select class="form-select" th:field="${post.boardName}">
+                    <select class="form-select" th:field="${post.boardName}" th:errorclass="field-error">
                         <option value="">==게시판 선택==</option>
                         <option th:each="boardName : ${boardNames}"
                                 th:value="${boardName}" th:text="${boardName}"></option>
                     </select>
+                    <div class="field-error" th:if="${#fields.hasErrors('boardName')}" th:errors="*{boardName}">게시판 선택 오류</div>
                 </div>
                 <div>
                     <label for="title">제목</label>
-                    <input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력하세요">
+                    <input type="text" id="title" name="title" class="form-control"
+                           placeholder="제목을 입력하세요" th:errorclass="field-error">
+                    <div class="field-error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">제목 오류</div>
                 </div>
                 <div>
                     <label for="content">내용</label>
-                    <input type="text" id="content" name="content" class="form-control" placeholder="내용을 입력하세요">
+                    <input type="text" style="height:400px;" id="content" name="content" class="form-control"
+                           placeholder="내용을 입력하세요" th:errorclass="field-error">
+                    <div class="field-error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">내용 오류</div>
                 </div>
                 <hr class="my-4">
 

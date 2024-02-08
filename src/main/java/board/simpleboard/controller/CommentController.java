@@ -4,12 +4,16 @@ import board.simpleboard.domain.Comment;
 import board.simpleboard.domain.Member;
 import board.simpleboard.service.CommentService;
 import board.simpleboard.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+@Slf4j
 @Controller
 @RequestMapping("/comments")
 @RequiredArgsConstructor
@@ -20,9 +24,15 @@ public class CommentController {
 
     @PostMapping("{postId}/add")
     public String addComment(@SessionAttribute(name = "loginMember", required = false) Member loginMember,
-                             @PathVariable Long postId,
-                             @RequestBody String content) {
-        commentService.save(new Comment(content.split("=")[1], postService.findById(postId).get(), loginMember));
+                             @PathVariable Long postId, RedirectAttributes redirectAttributes,
+                             @Valid @ModelAttribute Comment comment, BindingResult bindingResult) {
+        //model.addAttribute("loginMember", loginMember);
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addAttribute("postId", postId);
+            redirectAttributes.addFlashAttribute("bindingResult", bindingResult);
+            return "redirect:/posts/{postId}";
+        }
+        commentService.save(new Comment(comment.getContent(), postService.findById(postId).get(), loginMember));
         return "redirect:/posts/{postId}";
     }
 
